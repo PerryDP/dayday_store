@@ -62,11 +62,11 @@ class TestApiView3(mixins.ListModelMixin,
 
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 10
-    page_size_query_param = 'p'
-    page_query_param = 'offset'
+    page_size_query_param = 'size'
+    page_query_param = 'p'
     max_page_size = 10000
 
 class TestApiView4(ListAPIView):
     queryset = Goods.objects.all()
     serializer_class = GoodsModelSerizlizer
-    pagination_class = LargeResultsSetPagination
+    # pagination_class = LargeResultsSetPagination
