@@ -80,7 +80,7 @@ class FieldFilterManager(object):
     _field_list_filters = []
     _take_priority_index = 0
 
-    def register(self, list_filter_class, take_priority=False):
+    def register(self, list_filter_class: object, take_priority: object = False) -> object:
         if take_priority:
             # This is to allow overriding the default filters for certain types
             # of fields with some custom filters. The first found in the list

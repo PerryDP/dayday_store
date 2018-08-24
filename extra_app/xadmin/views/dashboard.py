@@ -153,7 +153,7 @@ class WidgetManager(object):
     def __init__(self):
         self._widgets = {}
 
-    def register(self, widget_class):
+    def register(self, widget_class: object) -> object:
         self._widgets[widget_class.widget_type] = widget_class
         return widget_class
 

@@ -16,9 +16,9 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0,BASE_DIR)
-sys.path.insert(0,os.path.join(BASE_DIR,'apps'))
-sys.path.insert(0,os.path.join(BASE_DIR,'extra_app'))
+sys.path.insert(0, BASE_DIR)
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+sys.path.insert(0, os.path.join(BASE_DIR, 'extra_app'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -29,7 +29,6 @@ SECRET_KEY = '+e(m-9l5tfrzd)4p97g!_79t(m-wh9l8mf_!m&2$4mgus9=_u&'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -44,10 +43,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin',
     'DjangoUeditor',
-    'user',
-    'goods',
-    'user_operation',
-    'trade',
+    'user.apps.UserConfig',
+    'goods.apps.GoodsConfig',
+    'user_operation.apps.UserOperationConfig',
+    'trade.apps.TradeConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'daydah_store2.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -89,13 +87,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'daday_shop',
-        'HOST':'localhost',
-        'USER':'root',
-        'PASSWORD':'000000',
-        'CHARSET':'utf8'
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': '000000',
+        'CHARSET': 'utf8'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -115,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -131,10 +127,14 @@ USE_TZ = False
 
 AUTH_USER_MODEL = 'user.UserProfile'
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+#     'PAGE_SIZE': 2,
+# }

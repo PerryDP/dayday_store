@@ -33,7 +33,6 @@ class GoodsCategoryAdmin(object):
     # 过滤器，可以按照此列表字段筛选
     list_filter = ["name", "category_type", ]
 
-    style_fields = {"desc": "ueditor"}
 
     # class GoodsImagesInline(object):
     #     model = GoodsImage
@@ -45,8 +44,13 @@ class GoodsCategoryAdmin(object):
 
 
 
+class GoodsAdmin(object):
+    # 添加字段后台样式，使用ueditor
+    style_fields = {"goods_desc": "ueditor"}
 
-xadmin.site.register(Goods)
+
+
+xadmin.site.register(Goods,GoodsAdmin)
 xadmin.site.register(GoodsCategory,GoodsCategoryAdmin)
 xadmin.site.register(GoodsImage)
 xadmin.site.register(GoodsCategoryBrand)

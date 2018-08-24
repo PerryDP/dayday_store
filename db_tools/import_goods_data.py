@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-__author__ = 'bobby'
 import sys
 import os
 
 
 pwd = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(pwd+"../")
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "MxShop.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "daydah_store2.settings")
 
 import django
 django.setup()
