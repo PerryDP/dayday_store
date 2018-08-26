@@ -23,7 +23,7 @@ import xadmin
 from daydah_store2.settings import MEDIA_ROOT
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import test_goods_list, TestApiView, TestApiView2, TestApiView3, TestApiView4, TestApiView5, \
-    TestApiView6, TestApiView7, CategoryViewset
+    TestApiView6, TestApiView7, CategoryViewset, BannerViewset
 
 from rest_framework.documentation import include_docs_urls
 
@@ -36,6 +36,7 @@ router.register(r'goods', TestApiView7, base_name='goods')
 router.register(r'categorys', CategoryViewset)
 router.register(r'code', SmsCodeViewset,base_name='code')
 router.register(r'users', UserViewset,base_name='users')
+router.register(r'banners', BannerViewset,base_name='banners')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),

@@ -8,7 +8,7 @@
 '''
 from rest_framework import serializers
 
-from goods.models import Goods, GoodsCategory
+from goods.models import Goods, GoodsCategory, Banner
 
 
 class GoodsSerizlizer(serializers.Serializer):
@@ -50,3 +50,9 @@ class GoodsModelSerizlizer(serializers.ModelSerializer):
     class Meta:
         model = Goods
         fields = '__all__'
+
+
+class BannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banner
+        fields = "__all__"

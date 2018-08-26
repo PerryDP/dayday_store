@@ -14,15 +14,14 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from goods.models import Goods, GoodsCategory
+from goods.models import Goods, GoodsCategory, Banner
 from goods.filters import GoodsFilters
 # TODO model_to_dict可以对model 方便的序列化，但是不支持Datetime类型
 from django.forms.models import model_to_dict
 # TODO serializers可以将所有格式的model序列化成json字符串serializers.serialize('json',model)
 from django.core import serializers
 
-from goods.serizlizers import GoodsSerizlizer, GoodsModelSerizlizer, GoodsCategoryModelSerizlizer
-
+from goods.serizlizers import GoodsSerizlizer, GoodsModelSerizlizer, GoodsCategoryModelSerizlizer, BannerSerializer
 
 
 def test_goods_list(request):
@@ -114,3 +113,11 @@ class CategoryViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.
     queryset = GoodsCategory.objects.filter(category_type=1)
     print('=========',queryset)
     serializer_class = GoodsCategoryModelSerizlizer
+
+
+class BannerViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    获取轮播图列表
+    """
+    queryset = Banner.objects.all().order_by("index")
+    serializer_class = BannerSerializer

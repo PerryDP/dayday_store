@@ -48,11 +48,15 @@ class GoodsAdmin(object):
     # 添加字段后台样式，使用ueditor
     style_fields = {"goods_desc": "ueditor"}
 
+class BannerGoodsAdmin(object):
+    list_display = ["goods", "image", "index"]
 
 
 xadmin.site.register(Goods,GoodsAdmin)
 xadmin.site.register(GoodsCategory,GoodsCategoryAdmin)
 xadmin.site.register(GoodsImage)
+xadmin.site.register(Banner,BannerGoodsAdmin)
 xadmin.site.register(GoodsCategoryBrand)
+
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSettings)
