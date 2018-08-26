@@ -4,24 +4,31 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import mixins, generics
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import mixins, generics, viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view
+from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from goods.models import Goods, GoodsCategory
-
+from goods.filters import GoodsFilters
 # TODO model_to_dict可以对model 方便的序列化，但是不支持Datetime类型
 from django.forms.models import model_to_dict
 # TODO serializers可以将所有格式的model序列化成json字符串serializers.serialize('json',model)
 from django.core import serializers
 
-from goods.serizlizers import GoodsSerizlizer, GoodsModelSerizlizer
+from goods.serizlizers import GoodsSerizlizer, GoodsModelSerizlizer, GoodsCategoryModelSerizlizer
+
 
 
 def test_goods_list(request):
     goods = GoodsCategory.objects.all()[:10]
+
+    Goods.objects.all().delete()
 
     json_data_str = serializers.serialize('json', goods)
 
@@ -60,13 +67,50 @@ class TestApiView3(mixins.ListModelMixin,
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+
 class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 12
     page_size_query_param = 'size'
-    page_query_param = 'p'
+    page_query_param = 'page'
     max_page_size = 10000
+
 
 class TestApiView4(ListAPIView):
     queryset = Goods.objects.all()
     serializer_class = GoodsModelSerizlizer
     # pagination_class = LargeResultsSetPagination
+
+
+class TestApiView5(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = Goods.objects.all()
+    serializer_class = GoodsModelSerizlizer
+
+
+class TestApiView6(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = Goods.objects.all()
+    serializer_class = GoodsModelSerizlizer
+
+    def get_queryset(self):
+        price_gt = self.request.query_params.get('price_gt', 0)
+        return self.queryset.filter(price__gt=price_gt)
+
+
+class TestApiView7(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = Goods.objects.all()
+    serializer_class = GoodsModelSerizlizer
+    # 过滤器类型，DjangoFilterBackend 为精确过滤，
+    filter_backends = (DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter)
+    filter_class = GoodsFilters
+    search_fields = ('name','shop_price')
+    ordering_fields = ('shop_price','sold_num')
+    # 认证
+    # authentication_classes = (TokenAuthentication ,)
+    pagination_class = LargeResultsSetPagination
+    # filter_fields =('name','goods_num')
+
+
+class CategoryViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    '''类别信息'''
+    queryset = GoodsCategory.objects.filter(category_type=1)
+    print('=========',queryset)
+    serializer_class = GoodsCategoryModelSerizlizer

@@ -14,7 +14,7 @@ class BaseSetting(object):
 class GlobalSettings(object):
     site_title = "天天生鲜后台系统"
     site_footer = "dayday_shop"
-    # menu_style = "accordion"
+    menu_style = "accordion"
 
 
 
@@ -24,7 +24,7 @@ class GlobalSettings(object):
 
 class GoodsCategoryAdmin(object):
     # 显示字段
-    list_display = ["name", "code", "desc", "category_type", "category_type", "parent_catergory",
+    list_display = ["name", "code", "desc", "category_type", "parent_category",
                     "is_tab", "add_time",]
     # 搜索字段
     search_fields = ['name', ]

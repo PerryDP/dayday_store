@@ -13,7 +13,7 @@ class UserProfile(AbstractUser):
     name = models.CharField(max_length=10,null=True,blank=True,verbose_name='姓名')
     birthday = models.DateField(null=True,blank=True,verbose_name='生日')
     gender = models.CharField(max_length=10,choices=choice_gender,default='weizhi',verbose_name='性别')
-    mobile = models.CharField(max_length=11,verbose_name='手机号')
+    mobile = models.CharField(null=True,blank=True,max_length=11,verbose_name='手机号')
 
     register_date = models.DateTimeField(auto_now_add=True)
     class Meta:

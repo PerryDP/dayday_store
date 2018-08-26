@@ -22,14 +22,31 @@ class GoodsSerizlizer(serializers.Serializer):
     sold_num = serializers.IntegerField()
 
 
-class GoodsCategoryModelSerizlizer(serializers.ModelSerializer):
+class GoodsCategoryModelSerizlizer1(serializers.ModelSerializer):
     class Meta:
         model = GoodsCategory
         fields = '__all__'
 
+
+class GoodsCategoryModelSerizlizer2(serializers.ModelSerializer):
+    sub_cat = GoodsCategoryModelSerizlizer1(many=True)
+
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+
+
+class GoodsCategoryModelSerizlizer(serializers.ModelSerializer):
+    sub_cat = GoodsCategoryModelSerizlizer2(many=True)
+    print('***************GoodsCategoryModelSerizlizer*****************')
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+
+
 class GoodsModelSerizlizer(serializers.ModelSerializer):
     category = GoodsCategoryModelSerizlizer()
+
     class Meta:
         model = Goods
         fields = '__all__'
-

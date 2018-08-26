@@ -7,7 +7,7 @@ class GoodsCategory(models.Model):
     '''
     商品类别
     '''
-    choice_cateergory_type = (
+    choice_catergory_type = (
         (1, '一级类目'),
         (2, '二级类目'),
         (3, '三级类目'),
@@ -16,9 +16,9 @@ class GoodsCategory(models.Model):
     name = models.CharField(max_length=10, verbose_name='类别名称')
     code = models.CharField(max_length=10, verbose_name='代码')
     desc = models.CharField(max_length=100, verbose_name='描述信息')
-    category_type = models.IntegerField(choices=choice_cateergory_type)
+    category_type = models.IntegerField(choices=choice_catergory_type,verbose_name='类目级别')
 
-    parent_catergory = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    parent_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,related_name='sub_cat')
 
     is_tab = models.BooleanField(default=False, verbose_name='顶部显示')
     add_time = models.DateTimeField(auto_now_add=True)
@@ -62,7 +62,7 @@ class Goods(models.Model):
     goods_num = models.IntegerField(default=0, verbose_name='库存数量')
 
     market_price = models.DecimalField(default=0.0, verbose_name='原价', max_digits=11, decimal_places=2)
-    price = models.DecimalField(default=0.0, verbose_name='现价', max_digits=11, decimal_places=2)
+    shop_price = models.DecimalField(default=0.0, verbose_name='现价', max_digits=11, decimal_places=2)
     goods_brief = models.TextField(max_length=2000, verbose_name='简描述')
 
     # goods_desc = models.TextField( verbose_name='商品详情')
