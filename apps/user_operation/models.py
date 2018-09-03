@@ -1,8 +1,13 @@
 from django.db import models
 
 # Create your models here.
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 from goods.models import Goods
 from user.models import UserProfile
+from utils.permissions import IsOwnerOrReadOnly
 
 
 class UserFav(models.Model):
@@ -16,6 +21,8 @@ class UserFav(models.Model):
         verbose_name = '用户收藏'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.user.username
 
 class UserLeavingMessage(models.Model):
     '''用户留言表'''
@@ -41,6 +48,8 @@ class UserAddress(models.Model):
     '''用户收获地址'''
 
     user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    province  = models.CharField(max_length=100,verbose_name='省')
+    city = models.CharField(max_length=100,verbose_name='市')
     district = models.CharField(max_length=100,verbose_name='区域')
 
     address = models.CharField(max_length=100,verbose_name='详细地址')

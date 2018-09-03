@@ -8,7 +8,7 @@
 '''
 from rest_framework import serializers
 
-from goods.models import Goods, GoodsCategory, Banner
+from goods.models import Goods, GoodsCategory, Banner, GoodsImage
 
 
 class GoodsSerizlizer(serializers.Serializer):
@@ -43,10 +43,16 @@ class GoodsCategoryModelSerizlizer(serializers.ModelSerializer):
         model = GoodsCategory
         fields = '__all__'
 
+class GoodsImagesSerizlizer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GoodsImage
+        fields = ('image',)
+
 
 class GoodsModelSerizlizer(serializers.ModelSerializer):
     category = GoodsCategoryModelSerizlizer()
-
+    images = GoodsImagesSerizlizer(many=True)
     class Meta:
         model = Goods
         fields = '__all__'

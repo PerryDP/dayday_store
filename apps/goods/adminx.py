@@ -34,20 +34,20 @@ class GoodsCategoryAdmin(object):
     list_filter = ["name", "category_type", ]
 
 
-    # class GoodsImagesInline(object):
-    #     model = GoodsImage
-    #     exclude = ["add_time"]
-    #     extra = 1
-    #     style = 'tab'
-    #
-    # inlines = [GoodsImagesInline]
+
 
 
 
 class GoodsAdmin(object):
     # 添加字段后台样式，使用ueditor
     style_fields = {"goods_desc": "ueditor"}
+    class GoodsImagesInline(object):
+        model = GoodsImage
+        exclude = ["add_time"]
+        extra = 1
+        style = 'tab'
 
+    inlines = [GoodsImagesInline]
 class BannerGoodsAdmin(object):
     list_display = ["goods", "image", "index"]
 

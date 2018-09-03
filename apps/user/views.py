@@ -7,12 +7,15 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets, status, mixins
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.mixins import CreateModelMixin
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 from user.models import UserProfile, VerifyCode
-from user.serializers import SmsSerializer, UserRegSerializer
+from user.serializers import SmsSerializer, UserRegSerializer, UserRegSerializer1
 from utils.yunpian_sms import YunPian
 
 User = get_user_model()
@@ -80,11 +83,13 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
         # ============发送短信验证码 end=================
 
 
-class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
+class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     '''
     用户注册登录
     '''
-    serializer_class = UserRegSerializer
+    serializer_class = UserRegSerializer1
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -94,6 +99,8 @@ class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
         re_dict = serializer.data
         print('=====创建用户======', user)
         payload = jwt_payload_handler(user)
+        print('========', payload, '========')
+        print('========', type(payload), '========')
         # 添加token 和name 让用户注册完毕后就登陆
         re_dict["token"] = jwt_encode_handler(payload)
         re_dict["name"] = user.name if user.name else user.username
@@ -103,3 +110,12 @@ class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
 
     def perform_create(self, serializer):
         return serializer.save()
+
+    def get_permissions(self):
+        if self.action == 'retrieve':
+            return [IsAuthenticated(), ]
+
+        return []
+
+    def get_object(self):
+        return self.request.user

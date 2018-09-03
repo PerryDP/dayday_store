@@ -18,14 +18,14 @@ class GoodsFilters(django_filters.rest_framework.FilterSet):
 
     def top_category_filter(self,queryset,name,value):
         print('=========value========',value)
-        # queryset = queryset.filter(Q(category_id=value)|Q(category__parent_category_id=value)|Q(category__parent_category__parent_category_id=value))
-        # print('=========queryset========',queryset)
-        return queryset.filter(Q(category_id=value)|Q(category__parent_category_id=value)|Q(category__parent_category__parent_category_id=value))
+        queryset = queryset.filter(Q(category_id=value)|Q(category__parent_category_id=value)|Q(category__parent_category__parent_category_id=value))
+        print('=========queryset========',queryset)
+        # return queryset.filter(Q(category_id=value)|Q(category__parent_category_id=value)|Q(category__parent_category__parent_category_id=value))
 
-        # return  queryset
+        return  queryset
 
     class Meta:
         model = Goods
         # fields = ['min_price','max_price']
-        fields = ['name','pricemin','pricemax']
+        fields = ['name','pricemin','pricemax','is_hot','is_new']
 

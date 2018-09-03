@@ -13,6 +13,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from goods.models import Goods, GoodsCategory, Banner
 from goods.filters import GoodsFilters
@@ -74,6 +75,7 @@ class LargeResultsSetPagination(PageNumberPagination):
     max_page_size = 10000
 
 
+
 class TestApiView4(ListAPIView):
     queryset = Goods.objects.all()
     serializer_class = GoodsModelSerizlizer
@@ -94,21 +96,26 @@ class TestApiView6(mixins.ListModelMixin, viewsets.GenericViewSet):
         return self.queryset.filter(price__gt=price_gt)
 
 
-class TestApiView7(mixins.ListModelMixin, viewsets.GenericViewSet):
+class TestApiView7(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     queryset = Goods.objects.all()
     serializer_class = GoodsModelSerizlizer
     # 过滤器类型，DjangoFilterBackend 为精确过滤，
-    filter_backends = (DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter)
+    filter_backends = (DjangoFilterBackend,
+                       filters.SearchFilter,
+                       filters.OrderingFilter
+                       )
     filter_class = GoodsFilters
     search_fields = ('name','shop_price')
     ordering_fields = ('shop_price','sold_num')
     # 认证
-    # authentication_classes = (TokenAuthentication ,)
+    # authentication_classes = ( JSONWebTokenAuthentication,)
     pagination_class = LargeResultsSetPagination
     # filter_fields =('name','goods_num')
+    ordering = 'add_time'
 
-
-class CategoryViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+class CategoryViewset(mixins.ListModelMixin,
+                      mixins.RetrieveModelMixin,
+                      viewsets.GenericViewSet):
     '''类别信息'''
     queryset = GoodsCategory.objects.filter(category_type=1)
     print('=========',queryset)

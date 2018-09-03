@@ -87,8 +87,8 @@ class Goods(models.Model):
 
 class GoodsImage(models.Model):
     '''商品轮播图'''
-    category = models.ForeignKey(GoodsCategory, verbose_name='类别', null=True, on_delete=models.CASCADE)
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    category = models.ForeignKey(GoodsCategory, verbose_name='类别', null=True, on_delete=models.CASCADE,)
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE,related_name='images')
     image = models.ImageField(upload_to='banner/images/', verbose_name='图片')
 
     image_url = models.CharField(max_length=300, null=True, blank=True, verbose_name='图片url')

@@ -6,4 +6,5 @@ class UserConfig(AppConfig):
     verbose_name = '用户管理'
 
     def ready(self):
-        import user.signals
+        # import user.signals
+        pass

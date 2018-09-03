@@ -28,6 +28,7 @@ from goods.views import test_goods_list, TestApiView, TestApiView2, TestApiView3
 from rest_framework.documentation import include_docs_urls
 
 from user.views import SmsCodeViewset, UserViewset
+from user_operation.views import UserFavViewset, UserAddressViewset
 
 router = DefaultRouter()
 router.register(r'goods5', TestApiView5, base_name='goods5')
@@ -37,9 +38,10 @@ router.register(r'categorys', CategoryViewset)
 router.register(r'code', SmsCodeViewset,base_name='code')
 router.register(r'users', UserViewset,base_name='users')
 router.register(r'banners', BannerViewset,base_name='banners')
+router.register(r'userfavs', UserFavViewset,base_name='userfav')
+router.register(r'address', UserAddressViewset,base_name='address')
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
     # path('goods/', include('goods.urls')),
     # path('goods/', test_goods_list),
     path('goods1/', TestApiView.as_view()),
