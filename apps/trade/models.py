@@ -16,7 +16,7 @@ class ShoppingCart(models.Model):
     '''购物车'''
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='用户')
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE,verbose_name='商品')
-    goods_nums = models.IntegerField(default=1, verbose_name='商品数量')
+    nums = models.IntegerField(default=1, verbose_name='商品数量')
 
     add_time = models.DateTimeField(auto_now_add=True)
 
@@ -36,13 +36,13 @@ class OrderInfo(models.Model):
     )
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,verbose_name='用户')
-    order_sn = models.CharField(max_length=50, unique=True, verbose_name='订单号')
-    trade_no = models.CharField(max_length=50, verbose_name='第三方流水号')
+    order_sn = models.CharField(max_length=50,null=True,blank=True, unique=True, verbose_name='订单号')
+    trade_no = models.CharField(max_length=50, null=True,blank=True,verbose_name='第三方流水号')
     pay_status = models.CharField(choices=choice_pay_status, default='daizhifu', verbose_name='支付状态',max_length=10)
-    post_script = models.CharField(max_length=200, verbose_name='支付留言')
+    post_script = models.CharField(max_length=200, verbose_name='支付留言',null=True,blank=True)
 
     order_mount = models.DecimalField(max_digits=11,decimal_places=2,verbose_name='订单金额')
-    pay_time = models.DateTimeField()
+    pay_time = models.DateTimeField(null=True,blank=True)
 
     address = models.CharField(max_length=100, default='', verbose_name='地址')
     signer_name = models.CharField(max_length=100, default='', verbose_name='签收人')
@@ -60,7 +60,7 @@ class OrderInfo(models.Model):
 
 class OrderGoods(models.Model):
     '''订单商品详情'''
-    order = models.ForeignKey(OrderInfo, on_delete=models.CASCADE, verbose_name='订单')
+    order = models.ForeignKey(OrderInfo, on_delete=models.CASCADE, verbose_name='订单',related_name='goods')
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='商品')
     goods_num = models.IntegerField(default=0, verbose_name='商品数量')
 

@@ -11,7 +11,7 @@ from rest_framework import serializers
 from goods.models import Goods, GoodsCategory, Banner, GoodsImage
 
 
-class GoodsSerizlizer(serializers.Serializer):
+class GoodsSerizlizer(serializers.ModelSerializer):
     '''序列化类，类似form表单的验证 这里定义的字段要和model中定义的字段一直'''
     # name = models.CharField(max_length=10, verbose_name='类别名称')
     # code = models.CharField(max_length=10, verbose_name='代码')
@@ -21,6 +21,9 @@ class GoodsSerizlizer(serializers.Serializer):
     goods_desc = serializers.CharField(max_length=100)
     sold_num = serializers.IntegerField()
 
+    class Meta:
+        model = Goods
+        fields = '__all__'
 
 class GoodsCategoryModelSerizlizer1(serializers.ModelSerializer):
     class Meta:

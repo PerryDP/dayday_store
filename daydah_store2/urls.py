@@ -27,6 +27,7 @@ from goods.views import test_goods_list, TestApiView, TestApiView2, TestApiView3
 
 from rest_framework.documentation import include_docs_urls
 
+from trade.views import ShoppingCartViewset, OrderViewset
 from user.views import SmsCodeViewset, UserViewset
 from user_operation.views import UserFavViewset, UserAddressViewset
 
@@ -40,6 +41,8 @@ router.register(r'users', UserViewset,base_name='users')
 router.register(r'banners', BannerViewset,base_name='banners')
 router.register(r'userfavs', UserFavViewset,base_name='userfav')
 router.register(r'address', UserAddressViewset,base_name='address')
+router.register(r'shopcarts', ShoppingCartViewset,base_name='shopcart')
+router.register(r'orders', OrderViewset,base_name='orders')
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('goods/', include('goods.urls')),

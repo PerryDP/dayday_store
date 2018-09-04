@@ -8,7 +8,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from goods.serizlizers import GoodsSerizlizer
 from user_operation.models import UserFav, UserAddress
-from user_operation.serializers import UserFavSerializer, UserAddressSer
+from user_operation.serializers import UserFavSerializer, UserAddressSer, UserFavDetailSerializer
 
 from utils.permissions import IsOwnerOrReadOnly
 
@@ -22,13 +22,13 @@ class UserFavViewset(mixins.DestroyModelMixin, mixins.RetrieveModelMixin, mixins
     def get_queryset(self):
         return UserFav.objects.filter(user=self.request.user)
 
-    # def get_serializer_class(self):
-    #     if self.action == "list":
-    #         return UserFavDetailSerializer
-    #     elif self.action == "create":
-    #         return UserFavSerializer
-    #
-    #     return UserFavSerializer
+    def get_serializer_class(self):
+        if self.action == "list":
+            return UserFavDetailSerializer
+        elif self.action == "create":
+            return UserFavSerializer
+
+        return UserFavSerializer
 
 
 class UserAddressViewset(viewsets.ModelViewSet):
