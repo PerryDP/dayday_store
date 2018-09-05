@@ -38,10 +38,10 @@ class OrderInfo(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,verbose_name='用户')
     order_sn = models.CharField(max_length=50,null=True,blank=True, unique=True, verbose_name='订单号')
     trade_no = models.CharField(max_length=50, null=True,blank=True,verbose_name='第三方流水号')
-    pay_status = models.CharField(choices=choice_pay_status, default='daizhifu', verbose_name='支付状态',max_length=10)
+    pay_status = models.CharField(choices=choice_pay_status, default='daizhifu', verbose_name='支付状态',max_length=50,null=True)
     post_script = models.CharField(max_length=200, verbose_name='支付留言',null=True,blank=True)
 
-    order_mount = models.DecimalField(max_digits=11,decimal_places=2,verbose_name='订单金额')
+    order_mount = models.FloatField(verbose_name='订单金额')
     pay_time = models.DateTimeField(null=True,blank=True)
 
     address = models.CharField(max_length=100, default='', verbose_name='地址')

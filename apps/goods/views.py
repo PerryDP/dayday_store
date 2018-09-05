@@ -118,7 +118,7 @@ class CategoryViewset(mixins.ListModelMixin,
                       viewsets.GenericViewSet):
     '''类别信息'''
     queryset = GoodsCategory.objects.filter(category_type=1)
-    print('=========',queryset)
+    # print('=========',queryset)
     serializer_class = GoodsCategoryModelSerizlizer
 
 

@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 from django.views.static import serve
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
@@ -27,7 +28,7 @@ from goods.views import test_goods_list, TestApiView, TestApiView2, TestApiView3
 
 from rest_framework.documentation import include_docs_urls
 
-from trade.views import ShoppingCartViewset, OrderViewset
+from trade.views import ShoppingCartViewset, OrderViewset, AlipayView
 from user.views import SmsCodeViewset, UserViewset
 from user_operation.views import UserFavViewset, UserAddressViewset
 
@@ -36,13 +37,13 @@ router.register(r'goods5', TestApiView5, base_name='goods5')
 router.register(r'goods6', TestApiView6, base_name='goods6')
 router.register(r'goods', TestApiView7, base_name='goods')
 router.register(r'categorys', CategoryViewset)
-router.register(r'code', SmsCodeViewset,base_name='code')
-router.register(r'users', UserViewset,base_name='users')
-router.register(r'banners', BannerViewset,base_name='banners')
-router.register(r'userfavs', UserFavViewset,base_name='userfav')
-router.register(r'address', UserAddressViewset,base_name='address')
-router.register(r'shopcarts', ShoppingCartViewset,base_name='shopcart')
-router.register(r'orders', OrderViewset,base_name='orders')
+router.register(r'code', SmsCodeViewset, base_name='code')
+router.register(r'users', UserViewset, base_name='users')
+router.register(r'banners', BannerViewset, base_name='banners')
+router.register(r'userfavs', UserFavViewset, base_name='userfav')
+router.register(r'address', UserAddressViewset, base_name='address')
+router.register(r'shopcarts', ShoppingCartViewset, base_name='shopcart')
+router.register(r'orders', OrderViewset, base_name='orders')
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('goods/', include('goods.urls')),
@@ -55,6 +56,7 @@ urlpatterns = [
     #     'get':'list'
     # })),
     url(r'^', include(router.urls)),
+    path('index', TemplateView.as_view(template_name="index.html"), name="index"),
     path('ueditor/', include('DjangoUeditor.urls')),
     path('xadmin/', xadmin.site.urls),
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
@@ -67,4 +69,5 @@ urlpatterns = [
     # token认证
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^login/', obtain_jwt_token),
+    url(r'^alipay/return/', AlipayView.as_view(), name="alipay"),
 ]
